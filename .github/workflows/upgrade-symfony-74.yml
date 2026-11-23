@@ -1,0 +1,43 @@
+name: Upgrade Symfony 7.3 to 7.4
+
+on:
+  push:
+    branches: [upgrade-symfony-7.4]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump Symfony constraints to 7.4
+        run: |
+          sed -i 's/"7\.3\.\*"/"7.4.\*"/g' composer.json
+          sed -i 's/"symfony\/phpunit-bridge": "\^7\.3"/"symfony\/phpunit-bridge": "\^7.4"/' composer.json
+          sed -i 's/"require": "7\.3\.\*"/"require": "7.4.\*"/' composer.json
+
+      - name: Composer update
+        run: composer update --with-all-dependencies --no-interaction --no-progress
+
+      - name: Sanity check (cache warmup)
+        run: php bin/console cache:clear --env=prod
+
+      - name: Commit updated dependencies
+        run: |
+          git add composer.json composer.lock
+          git commit -m "Upgrade Symfony 7.3 -> 7.4 (composer update)" || echo "nothing to commit"
+          git push origin HEAD:upgrade-symfony-7.4
