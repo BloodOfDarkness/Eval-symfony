@@ -1,0 +1,45 @@
+PHP: PHP 8.3.37 (cli) (built: Nov 21 2026 08:36:53) (NTS)
+Composer: Composer version 2.11.2 2026-11-10 10:09:37
+PHP version 8.3.37 (/usr/bin/php8.3)
+Run the "diagnose" command to get more detailed diagnostics output.
+./composer.json is valid for simple usage with Composer but has
+strict errors that make it unable to be published as a package
+See https://getcomposer.org/doc/04-schema.md for details on the schema
+# Publish errors
+- name : The property name is required
+- description : The property description is required
+# Lock file errors
+- The lock file is not up to date with the latest changes in composer.json, it is recommended that you run `composer update` or `composer update <package name>`.
+- Required package "symfony/asset" is in the lock file as "v7.3.0" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/console" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/doctrine-messenger" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/dotenv" is in the lock file as "v7.3.2" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/expression-language" is in the lock file as "v7.3.2" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/form" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/framework-bundle" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/http-client" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/intl" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/mailer" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/mime" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/notifier" is in the lock file as "v7.3.3" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/process" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/property-access" is in the lock file as "v7.3.3" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/property-info" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/runtime" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/security-bundle" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/serializer" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/string" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/translation" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/twig-bundle" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/validator" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/web-link" is in the lock file as "v7.3.0" but that does not satisfy your constraint "7.4.*".
+- Required package "symfony/yaml" is in the lock file as "v7.3.3" but that does not satisfy your constraint "7.4.*".
+- Required (in require-dev) package "symfony/browser-kit" is in the lock file as "v7.3.2" but that does not satisfy your constraint "7.4.*".
+- Required (in require-dev) package "symfony/css-selector" is in the lock file as "v7.3.0" but that does not satisfy your constraint "7.4.*".
+- Required (in require-dev) package "symfony/debug-bundle" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+- Required (in require-dev) package "symfony/phpunit-bridge" is in the lock file as "v7.3.4" but that does not satisfy your constraint "^7.4".
+- Required (in require-dev) package "symfony/stopwatch" is in the lock file as "v7.3.0" but that does not satisfy your constraint "7.4.*".
+- Required (in require-dev) package "symfony/web-profiler-bundle" is in the lock file as "v7.3.4" but that does not satisfy your constraint "7.4.*".
+This usually happens when composer files are incorrectly merged or the composer.json file is manually edited.
+Read more about correctly resolving merge conflicts https://getcomposer.org/doc/articles/resolving-merge-conflicts.md
+and prefer using the "require" command over editing the composer.json file directly https://getcomposer.org/doc/03-cli.md#require--r
