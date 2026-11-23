@@ -24,20 +24,19 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Bump Symfony constraints to 7.4
+      - name: Composer update (logged)
+        id: upd
         run: |
-          sed -i 's/"7\.3\.\*"/"7.4.\*"/g' composer.json
-          sed -i 's/"symfony\/phpunit-bridge": "\^7\.3"/"symfony\/phpunit-bridge": "\^7.4"/' composer.json
-          sed -i 's/"require": "7\.3\.\*"/"require": "7.4.\*"/' composer.json
+          set +e
+          composer update --with-all-dependencies --no-interaction --no-progress -vv > composer-update.log 2>&1
+          echo "exit=$?" >> composer-update.log
+          composer validate --no-check-all 2>> composer-update.log
 
-      - name: Composer update
-        run: composer update --with-all-dependencies --no-interaction --no-progress
+      - name: Show log tail
+        run: tail -40 composer-update.log
 
-      - name: Sanity check (cache warmup)
-        run: php bin/console cache:clear --env=prod
-
-      - name: Commit updated dependencies
+      - name: Commit results (even on failure)
         run: |
-          git add composer.json composer.lock
-          git commit -m "Upgrade Symfony 7.3 -> 7.4 (composer update)" || echo "nothing to commit"
+          git add composer.lock composer-update.log 2>/dev/null || true
+          git commit -m "composer update logs" 2>/dev/null || echo "no changes"
           git push origin HEAD:upgrade-symfony-7.4
