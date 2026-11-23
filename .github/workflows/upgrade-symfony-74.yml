@@ -20,23 +20,30 @@ jobs:
           coverage: none
 
       - name: Configure Git
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Composer update (logged)
-        id: upd
+        if: always()
         run: |
-          set +e
-          composer update --with-all-dependencies --no-interaction --no-progress -vv > composer-update.log 2>&1
-          echo "exit=$?" >> composer-update.log
-          composer validate --no-check-all 2>> composer-update.log
+          {
+            echo "PHP: $(php -v 2>&1 | head -1)"
+            echo "Composer: $(composer --version 2>&1)"
+            composer validate 2>&1
+            composer update --with-all-dependencies --no-interaction --no-progress 2>&1
+            echo "exit=$?"
+          } > composer-update.log 2>&1
+          echo "--- done ---"
 
       - name: Show log tail
-        run: tail -40 composer-update.log
+        if: always()
+        run: tail -60 composer-update.log || echo "no log file"
 
-      - name: Commit results (even on failure)
+      - name: Commit results (always)
+        if: always()
         run: |
-          git add composer.lock composer-update.log 2>/dev/null || true
-          git commit -m "composer update logs" 2>/dev/null || echo "no changes"
-          git push origin HEAD:upgrade-symfony-7.4
+          git add composer.lock composer-update.log || true
+          git commit -m "composer update results (diagnostic)" || echo "no changes"
+          git push origin HEAD:upgrade-symfony-7.4 || echo "push failed"
