@@ -23,5 +23,9 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {% set sumratings = 0 %}
+    {% for gr in student.grades %}
+        {% set sumratings = sumratings + gr.grade %}
+    {% endfor %}
+    AVG : {{ sumratings / student.grades|length }}
 {% endblock %}
