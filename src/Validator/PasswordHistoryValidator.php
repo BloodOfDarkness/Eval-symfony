@@ -36,6 +36,8 @@ class PasswordHistoryValidator extends ConstraintValidator
             return;
         }
 
+
+
         if (!is_string($value)) {
             // throw this exception if your validator cannot handle the passed type so that it can be marked as invalid
             throw new UnexpectedValueException($value, 'string');

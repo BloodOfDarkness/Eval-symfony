@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
+use Symfony\Component\Validator\Constraints\PasswordStrengthValidator;
 
 class RegistrationFormType extends AbstractType
 {
@@ -40,6 +41,9 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Saisissez un mot de passe',
                     ]),
+                    [
+                        new PasswordStrengthValidator()
+                    ]
                 ],
             ])
         ;
