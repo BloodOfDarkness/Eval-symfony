@@ -74,4 +74,50 @@ class Student extends User
         }
         return null;
     }
+
+    /**
+     * Moyenne générale de l'étudiant, ramenée sur 20 quelle que soit
+     * l'échelle (barème) de chaque évaluation.
+     */
+    public function getAverage(): ?float
+    {
+        return $this->computeNormalizedAverage($this->getGrades());
+    }
+
+    /**
+     * Moyenne de l'étudiant pour une matière donnée, ramenée sur 20.
+     */
+    public function getAverageBySubject(Subject $subject): ?float
+    {
+        $grades = $this->getGrades()->filter(
+            fn (Grade $grade) => $grade->getEvaluation() !== null && $grade->getEvaluation()->getSubject() === $subject
+        );
+
+        return $this->computeNormalizedAverage($grades);
+    }
+
+    /**
+     * @param Collection<int, Grade> $grades
+     */
+    private function computeNormalizedAverage(Collection $grades): ?float
+    {
+        $sum = 0.0;
+        $count = 0;
+
+        foreach ($grades as $grade) {
+            if ($grade->getGrade() === null || $grade->getEvaluation() === null) {
+                continue;
+            }
+
+            $bareme = $grade->getEvaluation()->getBareme();
+            if ($bareme === null || $bareme <= 0) {
+                continue;
+            }
+
+            $sum += ((float) $grade->getGrade() / $bareme) * 20;
+            $count++;
+        }
+
+        return $count > 0 ? $sum / $count : null;
+    }
 }

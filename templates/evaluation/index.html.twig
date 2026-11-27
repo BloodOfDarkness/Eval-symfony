@@ -12,6 +12,7 @@
                 <th>Date</th>
                 <th>Label</th>
                 <th>Bareme</th>
+                <th>Moyenne de la classe</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,13 +24,20 @@
                 <td>{{ evaluation.label }}</td>
                 <td>{{ evaluation.bareme }}</td>
                 <td>
+                    {% if evaluation.average is not null %}
+                        {{ evaluation.average|number_format(2, ',', ' ') }} / {{ evaluation.bareme }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
                     <a href="{{ path('app_evaluation_show', {'id': evaluation.id}) }}">show</a>
                     <a href="{{ path('app_evaluation_edit', {'id': evaluation.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

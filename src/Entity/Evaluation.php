@@ -161,4 +161,26 @@ class Evaluation
         }
         return null;
     }
+
+    /**
+     * Moyenne des notes de la classe pour cette évaluation,
+     * exprimée sur le barème de l'évaluation. Les notes non saisies
+     * (absents) sont ignorées.
+     */
+    public function getAverage(): ?float
+    {
+        $sum = 0.0;
+        $count = 0;
+
+        foreach ($this->getGrades() as $grade) {
+            if ($grade->getGrade() === null) {
+                continue;
+            }
+
+            $sum += (float) $grade->getGrade();
+            $count++;
+        }
+
+        return $count > 0 ? $sum / $count : null;
+    }
 }
