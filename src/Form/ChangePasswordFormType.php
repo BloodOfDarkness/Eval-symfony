@@ -45,6 +45,11 @@ class ChangePasswordFormType extends AbstractType
                         new NotBlank([
                             'message' => 'Saisissez un mot de passe',
                         ]),
+                        // STRENGTH_WEAK => entropie >= 60 selon PasswordStrengthValidator::estimateStrength()
+                        new PasswordStrength([
+                            'minScore' => PasswordStrength::STRENGTH_WEAK,
+                            'message' => 'Le mot de passe est trop faible : il doit avoir une entropie d\'au moins 60 bits.',
+                        ]),
                     ],
                     'label' => 'Nouveau mot de passe',
                     'attr' => [

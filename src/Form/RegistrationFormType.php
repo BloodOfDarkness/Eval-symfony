@@ -10,10 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
-use Symfony\Component\Validator\Constraints\PasswordStrengthValidator;
 
 class RegistrationFormType extends AbstractType
 {
@@ -41,9 +39,11 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Saisissez un mot de passe',
                     ]),
-                    [
-                        new PasswordStrengthValidator()
-                    ]
+                    // STRENGTH_WEAK => entropie >= 60 selon PasswordStrengthValidator::estimateStrength()
+                    new PasswordStrength([
+                        'minScore' => PasswordStrength::STRENGTH_WEAK,
+                        'message' => 'Le mot de passe est trop faible : il doit avoir une entropie d\'au moins 60 bits.',
+                    ]),
                 ],
             ])
         ;

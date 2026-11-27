@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 class ProfessorType extends AbstractType
 {
@@ -24,6 +26,16 @@ class ProfessorType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Saisissez un mot de passe',
+                    ]),
+                    // STRENGTH_WEAK => entropie >= 60 selon PasswordStrengthValidator::estimateStrength()
+                    new PasswordStrength([
+                        'minScore' => PasswordStrength::STRENGTH_WEAK,
+                        'message' => 'Le mot de passe est trop faible : il doit avoir une entropie d\'au moins 60 bits.',
+                    ]),
+                ],
             ])
             ->add('name', TextType::class, [
                 'label' => 'Nom complet',
