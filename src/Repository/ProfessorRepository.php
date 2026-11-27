@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ClassLevel;
 use App\Entity\Professor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,6 +20,26 @@ class ProfessorRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Professor::class);
+    }
+
+    /**
+     * Professeurs rattachés à un niveau de classe donné (classe d'un étudiant).
+     *
+     * @return Professor[]
+     */
+    public function findByClassLevel(?ClassLevel $classLevel): array
+    {
+        if ($classLevel === null) {
+            return [];
+        }
+
+        return $this->createQueryBuilder('p')
+            ->join('p.classLevels', 'cl')
+            ->where('cl = :classLevel')
+            ->setParameter('classLevel', $classLevel)
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

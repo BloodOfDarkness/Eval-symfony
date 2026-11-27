@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\PreviousPasswords;
 use App\Entity\Student;
 use App\Form\StudentType;
+use App\Repository\ProfessorRepository;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -110,6 +111,15 @@ class StudentController extends AbstractController
             'student' => $student,
             'grades' => $student->getGrades()
 
+        ]);
+    }
+
+    #[Route('/{id}/profs', name: 'app_student_professors', methods: ['GET'])]
+    public function myProfessors(Student $student, ProfessorRepository $professorRepository): Response
+    {
+        return $this->render('student/myprofessors.html.twig', [
+            'student' => $student,
+            'professors' => $professorRepository->findByClassLevel($student->getClassLevel()),
         ]);
     }
 }

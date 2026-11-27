@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes profs{% endblock %}
+
+{% block body %}
+    <h1>Mes profs — {{ app.user.name }}</h1>
+
+    {% if student.classLevel is not null %}
+        <p>Classe : <strong>{{ student.classLevel.label }}</strong></p>
+    {% endif %}
+
+    {% if professors is not empty %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Matière(s)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for professor in professors %}
+                <tr>
+                    <td>{{ professor.name }}</td>
+                    <td>{{ professor.email }}</td>
+                    <td>
+                        {% for subject in professor.subjects %}
+                            {{ subject.label }}{% if not loop.last %}, {% endif %}
+                        {% else %}
+                            —
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun professeur n'est rattaché à votre classe pour le moment.</p>
+    {% endif %}
+{% endblock %}
